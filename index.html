@@ -289,7 +289,7 @@
         <div class="filter-card">
             <div class="filter-group">
                 <label for="categoryFilter"><i class="fa-solid fa-list"></i> Sélectionnez un Secteur</label>
-                <select id="categoryFilter" onchange="filterData()">
+                <select id="categoryFilter" onchange="loadAndFilterData()">
                     <option value="all">Tous les secteurs</option>
                     <option value="restaurants">Restaurants</option>
                     <option value="sweets">Pâtisseries & Gâteaux</option>
@@ -304,7 +304,7 @@
 
             <div class="filter-group">
                 <label for="wilayaFilter"><i class="fa-solid fa-location-dot"></i> Sélectionnez une Wilaya</label>
-                <select id="wilayaFilter" onchange="filterData()">
+                <select id="wilayaFilter" onchange="loadAndFilterData()">
                     <option value="all">Toutes les Wilayas</option>
                     <option value="Constantine">25 - Constantine</option>
                     <option value="Algiers">16 - Alger</option>
@@ -318,7 +318,7 @@
         <div class="results-section">
             <h2>Résultats de la recherche</h2>
             <div class="grid-cards" id="listingsContainer">
-                <!-- يتم تعبئة النتائج تلقائياً عبر الـ JavaScript -->
+                <!-- يتم جلب وعرض النتائج تلقائياً من ملفات الـ JSON -->
             </div>
         </div>
     </div>
@@ -334,99 +334,46 @@
     </div>
 
     <script>
-        // قاعدة البيانات الشاملة مع روابط الصور (Photo de profil / image)
-        const database = [
-            {
-                id: 1,
-                name: "Restaurant Le Gourmet",
-                category: "restaurants",
-                categoryName: "Restaurants",
-                wilaya: "Constantine",
-                address: "Avenue Aouati Mostefa, Constantine",
-                phone: "+21331000001",
-                image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=60",
-                servicesInfo: "Menu disponible:\n- Plats traditionnels (Chakhchoukha, Tlitli)\n- Grillades et frites\n- Plats du jour variés"
-            },
-            {
-                id: 2,
-                name: "Pâtisserie La Delicia",
-                category: "sweets",
-                categoryName: "Pâtisseries & Gâteaux",
-                wilaya: "Constantine",
-                address: "Nouvelle Ville Ali Mendjeli, Constantine",
-                phone: "+21331000002",
-                image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=60",
-                servicesInfo: "Spécialités:\n- Gâteaux traditionnels et orientaux\n- Gâteaux d'anniversaire sur commande\n- Pâtisserie fine"
-            },
-            {
-                id: 3,
-                name: "Pharmacie Centrale de Garde",
-                category: "clinics",
-                categoryName: "Cliniques & Pharmacies",
-                wilaya: "Constantine",
-                address: "Centre Ville, Constantine",
-                phone: "+21331000003",
-                image: "https://images.unsplash.com/photo-1586015518255-972b2f96113b?w=500&auto=format&fit=crop&q=60",
-                servicesInfo: "Services médicaux:\n- Ouvert 24h/24 et 7j/7\n- Médicaments et urgences\n- Vente de matériel médical"
-            },
-            {
-                id: 4,
-                name: "Dépannage Remorquage 24/7",
-                category: "depanage",
-                categoryName: "Dépannage Auto",
-                wilaya: "Algiers",
-                address: "Autoroute Est-Ouest, Alger",
-                phone: "+21321000004",
-                image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=500&auto=format&fit=crop&q=60",
-                servicesInfo: "Services d'urgence:\n- Remorquage de véhicules légers\n- Intervention rapide sur route\n- Dépannage batterie et pannes"
-            },
-            {
-                id: 5,
-                name: "Express Delivery Services",
-                category: "delivery",
-                categoryName: "Livraison & Transport",
-                wilaya: "Oran",
-                address: "Es Senia, Oran",
-                phone: "+21341000005",
-                image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&auto=format&fit=crop&q=60",
-                servicesInfo: "Prestations:\n- Livraison de colis à domicile\n- Transport de marchandises\n- Service rapide inter-wilayas"
-            },
-            {
-                id: 6,
-                name: "Salon de Coiffure Moderne",
-                category: "barbershop",
-                categoryName: "Salons de Coiffure",
-                wilaya: "Constantine",
-                address: "Bardo, Constantine",
-                phone: "+21331000006",
-                image: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=500&auto=format&fit=crop&q=60",
-                servicesInfo: "Services:\n- Coiffure homme et soins capillaires\n- Rasage traditionnel et barbes\n- Soins du visage"
-            },
-            {
-                id: 7,
-                name: "Salle des Fêtes El Emira",
-                category: "events",
-                categoryName: "Salles & Fêtes",
-                wilaya: "Annaba",
-                address: "Boulevard de la Frontière, Annaba",
-                phone: "+21338000007",
-                image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=500&auto=format&fit=crop&q=60",
-                servicesInfo: "Organisation:\n- Location de salle pour mariages et fêtes\n- Capacité de 300 personnes\n- Décoration et sonorisation incluses"
-            },
-            {
-                id: 8,
-                name: "Vulcanisation & Pneu Express",
-                category: "serviceauto",
-                categoryName: "Service Auto",
-                wilaya: "Constantine",
-                address: "Zl Zouaghi, Constantine",
-                phone: "+21331000008",
-                image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500&auto=format&fit=crop&q=60",
-                servicesInfo: "Services auto:\n- Réparation et montage de pneus\n- Équilibrage et géométrie\n- Vidange et filtres"
-            }
+        // قائمة أسماء ملفات الـ JSON المستقلة لكل قطاع
+        const jsonFiles = [
+            'restaurants.json',
+            'sweets.json',
+            'clinics.json',
+            'depanage.json',
+            'delivery.json',
+            'barbershop.json',
+            'events.json',
+            'serviceauto.json'
         ];
 
-        // دالة لعرض البطاقات مع الصورة
+        let allDatabase = [];
+
+        // دالة لجلب البيانات من ملفات الـ JSON الخارجية
+        async function fetchAllData() {
+            try {
+                let loadedData = [];
+                for (let file of jsonFiles) {
+                    try {
+                        let response = await fetch(file);
+                        if (response.ok) {
+                            let data = await response.json();
+                            // التأكد من أن البيانات عبارة عن مصفوفة، وإضافتها
+                            if (Array.isArray(data)) {
+                                loadedData = loadedData.concat(data);
+                            }
+                        }
+                    } catch (err) {
+                        console.log(`Le fichier ${file} n'est pas encore créé ou est vide.`);
+                    }
+                }
+                allDatabase = loadedData;
+                displayListings(allDatabase);
+            } catch (error) {
+                console.error("Erreur lors du chargement des données:", error);
+            }
+        }
+
+        // دالة لعرض البطاقات في الواجهة
         function displayListings(items) {
             const container = document.getElementById("listingsContainer");
             container.innerHTML = "";
@@ -435,7 +382,7 @@
                 container.innerHTML = `
                     <div class="no-results">
                         <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
-                        Aucun résultat trouvé pour cette sélection.
+                        Aucun commerce trouvé pour le moment. Veuillez ajouter des fichiers JSON.
                     </div>
                 `;
                 return;
@@ -469,12 +416,12 @@
             });
         }
 
-        // دالة الفلترة
-        function filterData() {
+        // دالة الفلترة حسب القطاع والولاية
+        function loadAndFilterData() {
             const selectedCategory = document.getElementById("categoryFilter").value;
             const selectedWilaya = document.getElementById("wilayaFilter").value;
 
-            const filtered = database.filter(item => {
+            const filtered = allDatabase.filter(item => {
                 const matchCategory = (selectedCategory === "all" || item.category === selectedCategory);
                 const matchWilaya = (selectedWilaya === "all" || item.wilaya === selectedWilaya);
                 return matchCategory && matchWilaya;
@@ -506,9 +453,9 @@
             }
         }
 
-        // عرض كل البيانات عند تحميل الصفحة
+        // تحميل البيانات تلقائياً عند فتح الصفحة
         window.onload = function() {
-            displayListings(database);
+            fetchAllData();
         };
     </script>
 </body>
