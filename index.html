@@ -79,7 +79,7 @@
             font-size: 0.9rem;
         }
 
-        .filter-group select {
+        .filter-group select, .filter-group input {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid var(--border-color);
@@ -91,7 +91,7 @@
             transition: border-color 0.2s;
         }
 
-        .filter-group select:focus {
+        .filter-group select:focus, .filter-group input:focus {
             border-color: var(--primary-color);
         }
 
@@ -217,7 +217,6 @@
             background-color: #e2e8f0;
         }
 
-        /* نافذة منبثقة لعرض الخدمات */
         .modal {
             display: none;
             position: fixed;
@@ -285,7 +284,7 @@
     </header>
 
     <div class="container">
-        <!-- أداة الفلترة حسب القطاع والولاية -->
+        <!-- أداة الفلترة المحدثة -->
         <div class="filter-card">
             <div class="filter-group">
                 <label for="categoryFilter"><i class="fa-solid fa-list"></i> Sélectionnez un Secteur</label>
@@ -299,18 +298,13 @@
                     <option value="barbershop">Salons de Coiffure</option>
                     <option value="events">Salles & Fêtes</option>
                     <option value="serviceauto">Service Auto</option>
+                    <option value="schools">Écoles & Cours Particuliers</option>
                 </select>
             </div>
 
             <div class="filter-group">
-                <label for="wilayaFilter"><i class="fa-solid fa-location-dot"></i> Sélectionnez une Wilaya</label>
-                <select id="wilayaFilter" onchange="loadAndFilterData()">
-                    <option value="all">Toutes les Wilayas</option>
-                    <option value="Constantine">25 - Constantine</option>
-                    <option value="Algiers">16 - Alger</option>
-                    <option value="Oran">31 - Oran</option>
-                    <option value="Annaba">23 - Annaba</option>
-                </select>
+                <label for="wilayaInput"><i class="fa-solid fa-location-dot"></i> Rechercher une Wilaya (Nom ou Numéro)</label>
+                <input type="text" id="wilayaInput" placeholder="Ex: Constantine, Alger, 31..." oninput="loadAndFilterData()">
             </div>
         </div>
 
@@ -334,7 +328,7 @@
     </div>
 
     <script>
-        // قائمة أسماء ملفات الـ JSON المستقلة لكل قطاع
+        // قائمة ملفات الـ JSON لكل القطاعات (بما فيها القطاع الجديد schools)
         const jsonFiles = [
             'restaurants.json',
             'sweets.json',
@@ -343,12 +337,13 @@
             'delivery.json',
             'barbershop.json',
             'events.json',
-            'serviceauto.json'
+            'serviceauto.json',
+            'schools.json'
         ];
 
         let allDatabase = [];
 
-        // دالة لجلب البيانات من ملفات الـ JSON الخارجية
+        // دالة لجلب البيانات من ملفات الـ JSON
         async function fetchAllData() {
             try {
                 let loadedData = [];
@@ -357,13 +352,12 @@
                         let response = await fetch(file);
                         if (response.ok) {
                             let data = await response.json();
-                            // التأكد من أن البيانات عبارة عن مصفوفة، وإضافتها
                             if (Array.isArray(data)) {
                                 loadedData = loadedData.concat(data);
                             }
                         }
                     } catch (err) {
-                        console.log(`Le fichier ${file} n'est pas encore créé ou est vide.`);
+                        console.log(`Le fichier ${file} n'est pas encore créé.`);
                     }
                 }
                 allDatabase = loadedData;
@@ -382,7 +376,7 @@
                 container.innerHTML = `
                     <div class="no-results">
                         <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
-                        Aucun commerce trouvé pour le moment. Veuillez ajouter des fichiers JSON.
+                        Aucun commerce trouvé pour cette recherche.
                     </div>
                 `;
                 return;
@@ -416,14 +410,14 @@
             });
         }
 
-        // دالة الفلترة حسب القطاع والولاية
+        // دالة الفلترة مع حقل البحث الحر للولاية
         function loadAndFilterData() {
             const selectedCategory = document.getElementById("categoryFilter").value;
-            const selectedWilaya = document.getElementById("wilayaFilter").value;
+            const wilayaQuery = document.getElementById("wilayaInput").value.toLowerCase().trim();
 
             const filtered = allDatabase.filter(item => {
                 const matchCategory = (selectedCategory === "all" || item.category === selectedCategory);
-                const matchWilaya = (selectedWilaya === "all" || item.wilaya === selectedWilaya);
+                const matchWilaya = wilayaQuery === "" || item.wilaya.toLowerCase().includes(wilayaQuery);
                 return matchCategory && matchWilaya;
             });
 
