@@ -16,266 +16,56 @@
             --border-color: #e2e8f0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 2.5rem 1rem;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 1px;
-        }
-
-        header p {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: -30px auto 0;
-            padding: 0 1rem 3rem;
-            position: relative;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        header { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 2.5rem 1rem; text-align: center; }
+        header h1 { font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: 1px; }
+        header p { font-size: 1rem; opacity: 0.9; }
+        .container { max-width: 1200px; margin: -30px auto 0; padding: 0 1rem 3rem; position: relative; }
+        
         .filter-card {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            background: var(--card-bg); padding: 1.5rem; border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); margin-bottom: 2rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
         }
+        @media (max-width: 768px) { .filter-card { grid-template-columns: 1fr; } }
 
-        @media (max-width: 768px) {
-            .filter-card {
-                grid-template-columns: 1fr;
-            }
-        }
+        .filter-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-color); font-size: 0.9rem; }
+        .filter-group select { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; outline: none; background: white; color: var(--text-color); }
 
-        .filter-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-color);
-            font-size: 0.9rem;
-        }
+        .results-section h2 { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-color); border-left: 4px solid var(--primary-color); padding-left: 0.75rem; }
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
 
-        .filter-group select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            background: white;
-            color: var(--text-color);
-            transition: border-color 0.2s;
-        }
+        .card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border-color); }
+        .card-img-container { width: 100%; height: 180px; overflow: hidden; background-color: #f1f5f9; }
+        .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .card-body { padding: 1.25rem; }
+        .card-category { display: inline-block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; background: #eff6ff; color: var(--primary-color); padding: 0.25rem 0.5rem; border-radius: 4px; margin-bottom: 0.5rem; }
+        .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .card-info { font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+        .card-footer { padding: 1rem 1.25rem; background: #f8fafc; border-top: 1px solid var(--border-color); display: flex; gap: 0.75rem; }
 
-        .filter-group select:focus {
-            border-color: var(--primary-color);
-        }
+        .btn { flex: 1; padding: 0.6rem; border-radius: 6px; text-align: center; font-weight: 600; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; }
+        .btn-call { background-color: #10b981; color: white; }
+        .btn-services { background-color: #f1f5f9; color: var(--text-color); border: 1px solid var(--border-color); }
 
-        .results-section h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-color);
-            border-left: 4px solid var(--primary-color);
-            padding-left: 0.75rem;
-        }
-
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid var(--border-color);
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-img-container {
-            width: 100%;
-            height: 180px;
-            overflow: hidden;
-            background-color: #f1f5f9;
-        }
-
-        .card-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .card:hover .card-img-container img {
-            transform: scale(1.05);
-        }
-
-        .card-body {
-            padding: 1.25rem;
-        }
-
-        .card-category {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            background: #eff6ff;
-            color: var(--primary-color);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-info {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .card-footer {
-            padding: 1rem 1.25rem;
-            background: #f8fafc;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 0.6rem;
-            border-radius: 6px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.4rem;
-            transition: background 0.2s;
-        }
-
-        .btn-call {
-            background-color: #10b981;
-            color: white;
-        }
-
-        .btn-call:hover {
-            background-color: #059669;
-        }
-
-        .btn-services {
-            background-color: #f1f5f9;
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-services:hover {
-            background-color: #e2e8f0;
-        }
-
-        /* نافذة منبثقة لعرض الخدمات */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 100%;
-            position: relative;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-
-        .modal-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: var(--text-color);
-        }
-
-        .modal-body {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            white-space: pre-line;
-        }
-
-        .no-results {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 3rem;
-            background: white;
-            border-radius: 12px;
-            color: var(--text-light);
-            font-size: 1.1rem;
-            border: 1px dashed var(--border-color);
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; padding: 1rem; z-index: 1000; }
+        .modal-content { background: white; padding: 2rem; border-radius: 12px; max-width: 500px; width: 100%; position: relative; }
+        .close-modal { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+        .modal-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem; }
+        .modal-body { font-size: 0.95rem; color: var(--text-light); margin-bottom: 1.5rem; white-space: pre-line; }
+        .no-results { grid-column: 1 / -1; text-align: center; padding: 3rem; background: white; border-radius: 12px; color: var(--text-light); border: 1px dashed var(--border-color); }
     </style>
+
+    <!-- استدعاء ملفات البيانات الخارجية هنا -->
+    <script src="data/restaurants.js" defer></script>
+    <script src="data/sweets.js" defer></script>
+    <script src="data/clinics.js" defer></script>
+    <script src="data/depanage.js" defer></script>
+    <script src="data/delivery.js" defer></script>
+    <script src="data/barbershop.js" defer></script>
+    <script src="data/events.js" defer></script>
+    <script src="data/serviceauto.js" defer></script>
 </head>
 <body>
 
@@ -285,7 +75,6 @@
     </header>
 
     <div class="container">
-        <!-- أداة الفلترة حسب القطاع والولاية -->
         <div class="filter-card">
             <div class="filter-group">
                 <label for="categoryFilter"><i class="fa-solid fa-list"></i> Sélectionnez un Secteur</label>
@@ -314,119 +103,39 @@
             </div>
         </div>
 
-        <!-- قسم النتائج -->
         <div class="results-section">
             <h2>Résultats de la recherche</h2>
-            <div class="grid-cards" id="listingsContainer">
-                <!-- يتم تعبئة النتائج تلقائياً عبر الـ JavaScript -->
-            </div>
+            <div class="grid-cards" id="listingsContainer"></div>
         </div>
     </div>
 
-    <!-- نافذة منبثقة للخدمات -->
     <div class="modal" id="servicesModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <div class="modal-title" id="modalTitle">Détails des Services</div>
-            <div class="modal-body" id="modalBody">Description des services...</div>
+            <div class="modal-body" id="modalBody"></div>
             <button class="btn btn-call" style="width: 100%;" id="modalCallBtn"><i class="fa-solid fa-phone"></i> Appeler Maintenant</button>
         </div>
     </div>
 
     <script>
-        // قاعدة البيانات مع مسارات الصور المحلية حسب النظام الذي تفضله (images/wilaya/category/...)
-        const database = [
-            {
-                id: 1,
-                name: "Restaurant Le Gourmet",
-                category: "restaurants",
-                categoryName: "Restaurants",
-                wilaya: "Constantine",
-                address: "Avenue Aouati Mostefa, Constantine",
-                phone: "+21331000001",
-                image: "images/Constantine/restaurants/resto1.jpg",
-                servicesInfo: "Menu disponible:\n- Plats traditionnels (Chakhchoukha, Tlitli)\n- Grillades et frites\n- Plats du jour variés"
-            },
-            {
-                id: 2,
-                name: "Pâtisserie La Delicia",
-                category: "sweets",
-                categoryName: "Pâtisseries & Gâteaux",
-                wilaya: "Constantine",
-                address: "Nouvelle Ville Ali Mendjeli, Constantine",
-                phone: "+21331000002",
-                image: "images/Constantine/sweets/sweet1.jpg",
-                servicesInfo: "Spécialités:\n- Gâteaux traditionnels et orientaux\n- Gâteaux d'anniversaire sur commande\n- Pâtisserie fine"
-            },
-            {
-                id: 3,
-                name: "Pharmacie Centrale de Garde",
-                category: "clinics",
-                categoryName: "Cliniques & Pharmacies",
-                wilaya: "Constantine",
-                address: "Centre Ville, Constantine",
-                phone: "+21331000003",
-                image: "images/Constantine/clinics/pharma1.jpg",
-                servicesInfo: "Services médicaux:\n- Ouvert 24h/24 et 7j/7\n- Médicaments et urgences\n- Vente de matériel médical"
-            },
-            {
-                id: 4,
-                name: "Dépannage Remorquage 24/7",
-                category: "depanage",
-                categoryName: "Dépannage Auto",
-                wilaya: "Algiers",
-                address: "Autoroute Est-Ouest, Alger",
-                phone: "+21321000004",
-                image: "images/Algiers/depanage/dep1.jpg",
-                servicesInfo: "Services d'urgence:\n- Remorquage de véhicules légers\n- Intervention rapide sur route\n- Dépannage batterie et pannes"
-            },
-            {
-                id: 5,
-                name: "Express Delivery Services",
-                category: "delivery",
-                categoryName: "Livraison & Transport",
-                wilaya: "Oran",
-                address: "Es Senia, Oran",
-                phone: "+21341000005",
-                image: "images/Oran/delivery/del1.jpg",
-                servicesInfo: "Prestations:\n- Livraison de colis à domicile\n- Transport de marchandises\n- Service rapide inter-wilayas"
-            },
-            {
-                id: 6,
-                name: "Salon de Coiffure Moderne",
-                category: "barbershop",
-                categoryName: "Salons de Coiffure",
-                wilaya: "Constantine",
-                address: "Bardo, Constantine",
-                phone: "+21331000006",
-                image: "images/Constantine/barbershop/barber1.jpg",
-                servicesInfo: "Services:\n- Coiffure homme et soins capillaires\n- Rasage traditionnel et barbes\n- Soins du visage"
-            },
-            {
-                id: 7,
-                name: "Salle des Fêtes El Emira",
-                category: "events",
-                categoryName: "Salles & Fêtes",
-                wilaya: "Annaba",
-                address: "Boulevard de la Frontière, Annaba",
-                phone: "+21338000007",
-                image: "images/Annaba/events/event1.jpg",
-                servicesInfo: "Organisation:\n- Location de salle pour mariages et fêtes\n- Capacité de 300 personnes\n- Décoration et sonorisation incluses"
-            },
-            {
-                id: 8,
-                name: "Vulcanisation & Pneu Express",
-                category: "serviceauto",
-                categoryName: "Service Auto",
-                wilaya: "Constantine",
-                address: "Zl Zouaghi, Constantine",
-                phone: "+21331000008",
-                image: "images/Constantine/serviceauto/pneu1.jpg",
-                servicesInfo: "Services auto:\n- Réparation et montage de pneus\n- Équilibrage et géométrie\n- Vidange et filtres"
-            }
-        ];
+        // دمج كل مصفوفات البيانات القادمة من الملفات الخارجية في مصفوفة واحدة تلقائياً
+        let database = [];
 
-        // دالة لعرض البطاقات مع مسارات الصور المحلية
+        window.addEventListener('DOMContentLoaded', () => {
+            // تجميع البيانات من المتغيرات المعرفة في الملفات الخارجية (تأكد أن كل ملف يحمل اسماً خاصاً أو ضعها في مصفوفة عامة)
+            if (typeof restaurantsData !== 'undefined') database = database.concat(restaurantsData);
+            if (typeof sweetsData !== 'undefined') database = database.concat(sweetsData);
+            if (typeof clinicsData !== 'undefined') database = database.concat(clinicsData);
+            if (typeof depanageData !== 'undefined') database = database.concat(depanageData);
+            if (typeof deliveryData !== 'undefined') database = database.concat(deliveryData);
+            if (typeof barbershopData !== 'undefined') database = database.concat(barbershopData);
+            if (typeof eventsData !== 'undefined') database = database.concat(eventsData);
+            if (typeof serviceautoData !== 'undefined') database = database.concat(serviceautoData);
+
+            displayListings(database);
+        });
+
         function displayListings(items) {
             const container = document.getElementById("listingsContainer");
             container.innerHTML = "";
@@ -469,7 +178,6 @@
             });
         }
 
-        // دالة الفلترة
         function filterData() {
             const selectedCategory = document.getElementById("categoryFilter").value;
             const selectedWilaya = document.getElementById("wilayaFilter").value;
@@ -483,7 +191,6 @@
             displayListings(filtered);
         }
 
-        // فتح نافذة تفاصيل الخدمات
         function openModal(name, info, phone) {
             document.getElementById("modalTitle").innerText = name;
             document.getElementById("modalBody").innerText = info;
@@ -493,23 +200,16 @@
             document.getElementById("servicesModal").style.display = "flex";
         }
 
-        // إغلاق النافذة
         function closeModal() {
             document.getElementById("servicesModal").style.display = "none";
         }
 
-        // إغلاق النافذة عند الضغط خارجها
         window.onclick = function(event) {
             const modal = document.getElementById("servicesModal");
             if (event.target === modal) {
                 modal.style.display = "none";
             }
         }
-
-        // عرض كل البيانات عند تحميل الصفحة
-        window.onload = function() {
-            displayListings(database);
-        };
     </script>
 </body>
 </html>
