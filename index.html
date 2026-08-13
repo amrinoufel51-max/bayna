@@ -255,7 +255,6 @@
             text-shadow: 0 4px 20px rgba(56, 189, 248, 0.4);
         }
 
-        /* Delays for "La Source" letters */
         .site-title .word-group:nth-child(1) span:nth-child(1) { animation-delay: 0.1s; }
         .site-title .word-group:nth-child(1) span:nth-child(2) { animation-delay: 0.2s; }
         
@@ -274,7 +273,6 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* Sectors Selection View */
         #sectorsView {
             width: 100%;
             display: flex;
@@ -328,7 +326,6 @@
             font-size: 22px;
         }
 
-        /* Search & Results View (Initially Hidden) */
         #searchView {
             display: none;
             width: 100%;
@@ -443,13 +440,13 @@
 
         .item-info { width: 100%; }
         .item-info h3 { margin: 0 0 8px 0; font-size: 24px; color: #ffffff; }
-        .item-info p { margin: 0 0 12px 0; font-size: 16px; color: #94a3b8; }
+        .item-info p { margin: 0 0 6px 0; font-size: 15px; color: #94a3b8; }
 
         .card-actions {
             display: flex;
             gap: 10px;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .details-trigger-btn {
@@ -583,7 +580,7 @@
         </div>
     </div>
 
-    <!-- 1. Sectors Selection View (Shown first) -->
+    <!-- 1. Sectors Selection View -->
     <div id="sectorsView">
         <p class="section-heading-title">Choisissez un secteur d'activité</p>
         <div class="sectors-grid">
@@ -602,7 +599,7 @@
         </div>
     </div>
 
-    <!-- 2. Wilaya Search & Results View (Shown after selecting a sector) -->
+    <!-- 2. Wilaya Search & Results View -->
     <div id="searchView">
         <div class="search-box-wrapper">
             <span style="margin-right: 10px; font-size: 20px;">📍</span>
@@ -814,21 +811,22 @@
         let container = document.getElementById("resultsContainer");
         let nextBatch = filteredItems.slice(displayedCount, displayedCount + batchSize);
 
-        let detailsBtnText = (currentSectorKey === 'restaurants' || currentSectorKey === 'patisserie') ? 'Menu' : 'Détails';
-
         nextBatch.forEach((item) => {
             let card = document.createElement("div");
             card.className = "item-card";
             
+            let itemAddress = item.address ? item.address : (currentMatchedWilaya.toUpperCase() + ", Algérie");
+
             card.innerHTML = `
                 <div class="profile-img-wrapper">
                     <img src="${item.profileImg}" alt="${item.name}" class="profile-img" loading="lazy">
                 </div>
                 <div class="item-info">
                     <h3>${item.name}</h3>
-                    <p>📍 ${currentMatchedWilaya.toUpperCase()} — 📞 ${item.phone}</p>
+                    <p>📍 ${itemAddress}</p>
+                    <p>📞 ${item.phone}</p>
                     <div class="card-actions">
-                        <button class="details-trigger-btn" onclick='openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>${detailsBtnText}</button>
+                        <button class="details-trigger-btn" onclick='openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>Services</button>
                         <a href="tel:${item.phone}" class="phone-action-btn">📞 Appeler</a>
                     </div>
                 </div>
@@ -856,7 +854,7 @@
         let images = item.menuImages || item.images || [];
 
         if (images.length === 0) {
-            galleryContainer.innerHTML = "<p style='color: #94a3b8;'>Aucune image disponible pour le moment.</p>";
+            galleryContainer.innerHTML = "<p style='color: #94a3b8;'>Aucun service disponible pour le moment.</p>";
         } else {
             images.forEach((imgSrc) => {
                 let img = document.createElement("img");
