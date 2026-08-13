@@ -1,9 +1,11 @@
 {
-    "name": "nexopizza",
-    "address": "draria",
-    "phone": "0456768594",
+    "name": "Nexopizza",
+    "address": "Draria",
+    "phone": "0569059834",
     "profileImg": "images/alger/Nexo pp.JPG",
     "menuImages": [
-        "images/alger/Nexo m3.jpg\nimages/alger/Nexo m2.jpg\nimages/alger/Nexo m1.jpg"
+        "images/alger/Nexo m1.jpg",
+        "images/alger/Nexo m2.jpg",
+        "images/alger/Nexo m3.jpg"
     ]
 }
