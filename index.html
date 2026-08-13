@@ -295,7 +295,7 @@
             padding: 16px;
             border-radius: 16px;
             color: #f8fafc;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
@@ -573,16 +573,17 @@
         <p class="section-heading-title">Choisissez un secteur d'activité</p>
         <div class="sectors-grid">
             <button class="sector-card" onclick="selectSector('restaurants', 'Restaurants')"><span class="sector-icon">🍽️</span> Restaurants</button>
-            <button class="sector-card" onclick="selectSector('patisserie', 'Pâtisseries')"><span class="sector-icon">🍰</span> Pâtisserie</button>
-            <button class="sector-card" onclick="selectSector('عيادات', 'Cliniques & Cabinets')"><span class="sector-icon">🩺</span> عيادات</button>
-            <button class="sector-card" onclick="selectSector('صيدليات', 'Pharmacies')"><span class="sector-icon">💊</span> صيدليات</button>
-            <button class="sector-card" onclick="selectSector('depannage_auto', 'Dépannage Auto')"><span class="sector-icon">🚗</span> Depanage Auto</button>
-            <button class="sector-card" onclick="selectSector('حرف', 'Artisanat & Services')"><span class="sector-icon">🛠️</span> حرف</button>
+            <button class="sector-card" onclick="selectSector('patisserie', 'Pâtisserie')"><span class="sector-icon">🍰</span> Pâtisserie</button>
+            <button class="sector-card" onclick="selectSector('cliniques', 'Cliniques & Cabinets')"><span class="sector-icon">🩺</span> Cliniques</button>
+            <button class="sector-card" onclick="selectSector('pharmacies', 'Pharmacies')"><span class="sector-icon">💊</span> Pharmacies</button>
+            <button class="sector-card" onclick="selectSector('depannage_auto', 'Dépannage Auto')"><span class="sector-icon">🚗</span> Dépannage Auto</button>
+            <button class="sector-card" onclick="selectSector('artisanat', 'Artisanat & Services')"><span class="sector-icon">🛠️</span> Artisanat</button>
             <button class="sector-card" onclick="selectSector('livraison', 'Livraison')"><span class="sector-icon">🛵</span> Livraison</button>
-            <button class="sector-card" onclick="selectSector('قاعات_للاعراس', 'Salles des Fêtes')"><span class="sector-icon">🎉</span> قاعات للاعراس</button>
-            <button class="sector-card" onclick="selectSector('فنادق', 'Hôtels')"><span class="sector-icon">🏨</span> فنادق</button>
-            <button class="sector-card" onclick="selectSector('حلاقة_رجال', 'Salons Hommes')"><span class="sector-icon">✂️</span> حلاقة للرجال</button>
-            <button class="sector-card" onclick="selectSector('حلاقة_نساء', 'Salons Femmes')"><span class="sector-icon">💇‍♀️</span> حلاقة للنساء</button>
+            <button class="sector-card" onclick="selectSector('salles_des_fetes', 'Salles des Fêtes')"><span class="sector-icon">🎉</span> Salles des Fêtes</button>
+            <button class="sector-card" onclick="selectSector('hotels', 'Hôtels')"><span class="sector-icon">🏨</span> Hôtels</button>
+            <button class="sector-card" onclick="selectSector('salons_hommes', 'Salons Hommes')"><span class="sector-icon">✂️</span> Salons Hommes</button>
+            <button class="sector-card" onclick="selectSector('salons_femmes', 'Salons Femmes')"><span class="sector-icon">💇‍♀️</span> Salons Femmes</button>
+            <button class="sector-card" onclick="selectSector('soutien_scolaire', 'Soutien Scolaire')"><span class="sector-icon">📚</span> Soutien Scolaire</button>
         </div>
     </div>
 
@@ -590,7 +591,7 @@
     <div id="searchView">
         <div class="search-box-wrapper">
             <span style="margin-right: 10px; font-size: 20px;">📍</span>
-            <input type="text" id="wilayaInput" placeholder="Entrez votre Wilaya (ex: constantine, alger)..." oninput="searchRestaurants()">
+            <input type="text" id="wilayaInput" placeholder="Entrez votre Wilaya (ex: constantine, alger)..." oninput="searchData()">
         </div>
 
         <div id="itemNameSearchWrapper">
@@ -604,7 +605,7 @@
 
 <div id="itemModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
     <div class="modal-content">
-        <button class="close-btn" onclick="closeModal()">×</button>
+        <button class="close-btn" onclick="closeModal()">×</button> مفتاح
         <h2 id="modalName" class="modal-title"></h2>
         <div id="modalGallery" class="modal-gallery"></div>
     </div>
@@ -704,7 +705,7 @@
         }
     }
 
-    async function searchRestaurants() {
+    async function searchData() {
         let loader = document.getElementById("loader");
         loader.style.width = "100%";
 
@@ -742,7 +743,7 @@
             let combinedData = [];
 
             while (true) {
-                // نظام تسمية الملفات يعتمد على اسم الولاية والقطاع (مثال: constantine_restaurants.json أو constantine_patisserie_2.json)
+                // اسم الملف يعتمد على الولاية والمفتاح البرمجي للقطاع (مثال: constantine_soutien_scolaire.json)
                 let fileName = partIndex === 1 ? `${matchedWilaya}_${currentSectorKey}.json` : `${matchedWilaya}_${currentSectorKey}_${partIndex}.json`;
                 try {
                     let response = await fetch(fileName);
