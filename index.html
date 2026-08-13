@@ -72,6 +72,73 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* --- شاشة الافتتاحية العصرية (Splash Screen) --- */
+        #splashScreen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: var(--modal-bg);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+        }
+
+        #splashScreen.fade-out {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .splash-logo {
+            font-size: 46px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulseSplash 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseSplash {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 30px var(--border-hover); }
+        }
+
+        .splash-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spinSplash 0.9s linear infinite;
+        }
+
+        @keyframes spinSplash {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .splash-tagline {
+            font-size: 14px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        --------------------------------------------------
+
         .backdrop-fx {
             position: fixed;
             top: 0; left: 0;
@@ -324,7 +391,6 @@
             font-weight: 600;
         }
 
-        /* --- تصميم بطاقات الأقسام Glassmorphic الفاخرة --- */
         .sectors-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
@@ -355,7 +421,6 @@
             overflow: hidden;
         }
 
-        /* تأثير التدرج المضيء (Glow Effect) عند المرور */
         .sector-card::before {
             content: '';
             position: absolute;
@@ -416,7 +481,6 @@
             color: var(--text-muted);
             font-weight: 400;
         }
-        ----------------------------------------------
 
         #searchView {
             display: none;
@@ -704,6 +768,15 @@
 </head>
 <body>
 
+<!-- شاشة البداية العصرية (Splash Screen) -->
+<div id="splashScreen">
+    <div class="splash-content">
+        <div class="splash-logo">La Source</div>
+        <div class="splash-spinner"></div>
+        <div class="splash-tagline">Annuaire Multi-Secteurs</div>
+    </div>
+</div>
+
 <div id="loader"></div>
 
 <div class="backdrop-fx">
@@ -807,6 +880,14 @@
 </div>
 
 <script>
+    // إخفاء شاشة الترحيب بسلاسة فور تحميل الصفحة
+    window.addEventListener("load", () => {
+        setTimeout(() => {
+            let splash = document.getElementById("splashScreen");
+            splash.classList.add("fade-out");
+        }, 600); // تأخير بسيط لضمان تجربة بصرية فخمة وسلسة
+    });
+
     const wilayasList = [
         "adrar", "chlef", "laghouat", "oum_el_bouaghi", "batna", "bejaia", "biskra", "bechar", 
         "blida", "bouira", "tamanrasset", "tbessa", "tlemcen", "tiaret", "tizi_ouzou", "alger", 
