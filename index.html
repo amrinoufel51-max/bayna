@@ -72,7 +72,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- شاشة الافتتاحية العصرية (Splash Screen) --- */
+        /* --- شاشة الافتتاحية المعدلة (توسع الدائرة بسلاسة) --- */
         #splashScreen {
             position: fixed;
             top: 0; left: 0;
@@ -83,11 +83,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+            transition: opacity 0.6s ease;
         }
 
         #splashScreen.fade-out {
-            transform: translateY(-100%);
             opacity: 0;
             pointer-events: none;
         }
@@ -98,6 +97,12 @@
             align-items: center;
             gap: 20px;
             text-align: center;
+            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.9s ease;
+        }
+
+        #splashScreen.expand .splash-content {
+            transform: scale(8);
+            opacity: 0;
         }
 
         .splash-logo {
@@ -137,7 +142,6 @@
             text-transform: uppercase;
             font-weight: 600;
         }
-        --------------------------------------------------
 
         .backdrop-fx {
             position: fixed;
@@ -768,7 +772,7 @@
 </head>
 <body>
 
-<!-- شاشة البداية العصرية (Splash Screen) -->
+<!-- شاشة البداية (تبقى 3 ثوانٍ ثم تتوسع الدائرة لتكشف الموقع) -->
 <div id="splashScreen">
     <div class="splash-content">
         <div class="splash-logo">La Source</div>
@@ -880,12 +884,18 @@
 </div>
 
 <script>
-    // إخفاء شاشة الترحيب بسلاسة فور تحميل الصفحة
+    // بقاء شاشة الترحيب لمدة 3 ثوانٍ ثم توسع الدائرة وكشف الموقع
     window.addEventListener("load", () => {
         setTimeout(() => {
             let splash = document.getElementById("splashScreen");
+            splash.classList.add("expand");
             splash.classList.add("fade-out");
-        }, 600); // تأخير بسيط لضمان تجربة بصرية فخمة وسلسة
+            
+            // إزالة العنصر نهائياً من الـ DOM بعد انتهاء الحركة تماماً
+            setTimeout(() => {
+                splash.remove();
+            }, 900);
+        }, 3000); // 3000 ملي ثانية = 3 ثوانٍ
     });
 
     const wilayasList = [
