@@ -79,7 +79,7 @@
             font-size: 0.9rem;
         }
 
-        .filter-group select, .filter-group input {
+        .filter-group select {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid var(--border-color);
@@ -91,7 +91,7 @@
             transition: border-color 0.2s;
         }
 
-        .filter-group select:focus, .filter-group input:focus {
+        .filter-group select:focus {
             border-color: var(--primary-color);
         }
 
@@ -217,6 +217,7 @@
             background-color: #e2e8f0;
         }
 
+        /* نافذة منبثقة لعرض الخدمات */
         .modal {
             display: none;
             position: fixed;
@@ -284,11 +285,11 @@
     </header>
 
     <div class="container">
-        <!-- أداة الفلترة المحدثة -->
+        <!-- أداة الفلترة حسب القطاع والولاية -->
         <div class="filter-card">
             <div class="filter-group">
                 <label for="categoryFilter"><i class="fa-solid fa-list"></i> Sélectionnez un Secteur</label>
-                <select id="categoryFilter" onchange="loadAndFilterData()">
+                <select id="categoryFilter" onchange="filterData()">
                     <option value="all">Tous les secteurs</option>
                     <option value="restaurants">Restaurants</option>
                     <option value="sweets">Pâtisseries & Gâteaux</option>
@@ -298,13 +299,18 @@
                     <option value="barbershop">Salons de Coiffure</option>
                     <option value="events">Salles & Fêtes</option>
                     <option value="serviceauto">Service Auto</option>
-                    <option value="schools">Écoles & Cours Particuliers</option>
                 </select>
             </div>
 
             <div class="filter-group">
-                <label for="wilayaInput"><i class="fa-solid fa-location-dot"></i> Rechercher une Wilaya (Nom ou Numéro)</label>
-                <input type="text" id="wilayaInput" placeholder="Ex: Constantine, Alger, 31..." oninput="loadAndFilterData()">
+                <label for="wilayaFilter"><i class="fa-solid fa-location-dot"></i> Sélectionnez une Wilaya</label>
+                <select id="wilayaFilter" onchange="filterData()">
+                    <option value="all">Toutes les Wilayas</option>
+                    <option value="Constantine">25 - Constantine</option>
+                    <option value="Algiers">16 - Alger</option>
+                    <option value="Oran">31 - Oran</option>
+                    <option value="Annaba">23 - Annaba</option>
+                </select>
             </div>
         </div>
 
@@ -312,7 +318,7 @@
         <div class="results-section">
             <h2>Résultats de la recherche</h2>
             <div class="grid-cards" id="listingsContainer">
-                <!-- يتم جلب وعرض النتائج تلقائياً من ملفات الـ JSON -->
+                <!-- يتم تعبئة النتائج تلقائياً عبر الـ JavaScript -->
             </div>
         </div>
     </div>
@@ -328,46 +334,99 @@
     </div>
 
     <script>
-        // قائمة ملفات الـ JSON لكل القطاعات (بما فيها القطاع الجديد schools)
-        const jsonFiles = [
-            'restaurants.json',
-            'sweets.json',
-            'clinics.json',
-            'depanage.json',
-            'delivery.json',
-            'barbershop.json',
-            'events.json',
-            'serviceauto.json',
-            'schools.json'
+        // قاعدة البيانات مع مسارات الصور المحلية حسب النظام الذي تفضله (images/wilaya/category/...)
+        const database = [
+            {
+                id: 1,
+                name: "Restaurant Le Gourmet",
+                category: "restaurants",
+                categoryName: "Restaurants",
+                wilaya: "Constantine",
+                address: "Avenue Aouati Mostefa, Constantine",
+                phone: "+21331000001",
+                image: "images/Constantine/restaurants/resto1.jpg",
+                servicesInfo: "Menu disponible:\n- Plats traditionnels (Chakhchoukha, Tlitli)\n- Grillades et frites\n- Plats du jour variés"
+            },
+            {
+                id: 2,
+                name: "Pâtisserie La Delicia",
+                category: "sweets",
+                categoryName: "Pâtisseries & Gâteaux",
+                wilaya: "Constantine",
+                address: "Nouvelle Ville Ali Mendjeli, Constantine",
+                phone: "+21331000002",
+                image: "images/Constantine/sweets/sweet1.jpg",
+                servicesInfo: "Spécialités:\n- Gâteaux traditionnels et orientaux\n- Gâteaux d'anniversaire sur commande\n- Pâtisserie fine"
+            },
+            {
+                id: 3,
+                name: "Pharmacie Centrale de Garde",
+                category: "clinics",
+                categoryName: "Cliniques & Pharmacies",
+                wilaya: "Constantine",
+                address: "Centre Ville, Constantine",
+                phone: "+21331000003",
+                image: "images/Constantine/clinics/pharma1.jpg",
+                servicesInfo: "Services médicaux:\n- Ouvert 24h/24 et 7j/7\n- Médicaments et urgences\n- Vente de matériel médical"
+            },
+            {
+                id: 4,
+                name: "Dépannage Remorquage 24/7",
+                category: "depanage",
+                categoryName: "Dépannage Auto",
+                wilaya: "Algiers",
+                address: "Autoroute Est-Ouest, Alger",
+                phone: "+21321000004",
+                image: "images/Algiers/depanage/dep1.jpg",
+                servicesInfo: "Services d'urgence:\n- Remorquage de véhicules légers\n- Intervention rapide sur route\n- Dépannage batterie et pannes"
+            },
+            {
+                id: 5,
+                name: "Express Delivery Services",
+                category: "delivery",
+                categoryName: "Livraison & Transport",
+                wilaya: "Oran",
+                address: "Es Senia, Oran",
+                phone: "+21341000005",
+                image: "images/Oran/delivery/del1.jpg",
+                servicesInfo: "Prestations:\n- Livraison de colis à domicile\n- Transport de marchandises\n- Service rapide inter-wilayas"
+            },
+            {
+                id: 6,
+                name: "Salon de Coiffure Moderne",
+                category: "barbershop",
+                categoryName: "Salons de Coiffure",
+                wilaya: "Constantine",
+                address: "Bardo, Constantine",
+                phone: "+21331000006",
+                image: "images/Constantine/barbershop/barber1.jpg",
+                servicesInfo: "Services:\n- Coiffure homme et soins capillaires\n- Rasage traditionnel et barbes\n- Soins du visage"
+            },
+            {
+                id: 7,
+                name: "Salle des Fêtes El Emira",
+                category: "events",
+                categoryName: "Salles & Fêtes",
+                wilaya: "Annaba",
+                address: "Boulevard de la Frontière, Annaba",
+                phone: "+21338000007",
+                image: "images/Annaba/events/event1.jpg",
+                servicesInfo: "Organisation:\n- Location de salle pour mariages et fêtes\n- Capacité de 300 personnes\n- Décoration et sonorisation incluses"
+            },
+            {
+                id: 8,
+                name: "Vulcanisation & Pneu Express",
+                category: "serviceauto",
+                categoryName: "Service Auto",
+                wilaya: "Constantine",
+                address: "Zl Zouaghi, Constantine",
+                phone: "+21331000008",
+                image: "images/Constantine/serviceauto/pneu1.jpg",
+                servicesInfo: "Services auto:\n- Réparation et montage de pneus\n- Équilibrage et géométrie\n- Vidange et filtres"
+            }
         ];
 
-        let allDatabase = [];
-
-        // دالة لجلب البيانات من ملفات الـ JSON
-        async function fetchAllData() {
-            try {
-                let loadedData = [];
-                for (let file of jsonFiles) {
-                    try {
-                        let response = await fetch(file);
-                        if (response.ok) {
-                            let data = await response.json();
-                            if (Array.isArray(data)) {
-                                loadedData = loadedData.concat(data);
-                            }
-                        }
-                    } catch (err) {
-                        console.log(`Le fichier ${file} n'est pas encore créé.`);
-                    }
-                }
-                allDatabase = loadedData;
-                displayListings(allDatabase);
-            } catch (error) {
-                console.error("Erreur lors du chargement des données:", error);
-            }
-        }
-
-        // دالة لعرض البطاقات في الواجهة
+        // دالة لعرض البطاقات مع مسارات الصور المحلية
         function displayListings(items) {
             const container = document.getElementById("listingsContainer");
             container.innerHTML = "";
@@ -376,7 +435,7 @@
                 container.innerHTML = `
                     <div class="no-results">
                         <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
-                        Aucun commerce trouvé pour cette recherche.
+                        Aucun résultat trouvé pour cette sélection.
                     </div>
                 `;
                 return;
@@ -387,7 +446,7 @@
                 card.className = "card";
                 card.innerHTML = `
                     <div class="card-img-container">
-                        <img src="${item.image}" alt="${item.name}">
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/400x200?text=Bayna+Image'">
                     </div>
                     <div class="card-body">
                         <span class="card-category">${item.categoryName}</span>
@@ -410,14 +469,14 @@
             });
         }
 
-        // دالة الفلترة مع حقل البحث الحر للولاية
-        function loadAndFilterData() {
+        // دالة الفلترة
+        function filterData() {
             const selectedCategory = document.getElementById("categoryFilter").value;
-            const wilayaQuery = document.getElementById("wilayaInput").value.toLowerCase().trim();
+            const selectedWilaya = document.getElementById("wilayaFilter").value;
 
-            const filtered = allDatabase.filter(item => {
+            const filtered = database.filter(item => {
                 const matchCategory = (selectedCategory === "all" || item.category === selectedCategory);
-                const matchWilaya = wilayaQuery === "" || item.wilaya.toLowerCase().includes(wilayaQuery);
+                const matchWilaya = (selectedWilaya === "all" || item.wilaya === selectedWilaya);
                 return matchCategory && matchWilaya;
             });
 
@@ -447,9 +506,9 @@
             }
         }
 
-        // تحميل البيانات تلقائياً عند فتح الصفحة
+        // عرض كل البيانات عند تحميل الصفحة
         window.onload = function() {
-            fetchAllData();
+            displayListings(database);
         };
     </script>
 </body>
