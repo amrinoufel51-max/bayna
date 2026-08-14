@@ -72,7 +72,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- شاشة الافتتاحية المعدلة (توسع الدائرة بسلاسة) --- */
         #splashScreen {
             position: fixed;
             top: 0; left: 0;
@@ -162,9 +161,6 @@
         }
 
         #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .particle { position: absolute; background: var(--particle-color); border-radius: 50%; opacity: 0.2; animation: floatParticle linear infinite; }
-        @keyframes floatParticle { 0% { transform: translateY(100vh) scale(0); } 50% { opacity: 0.4; } 100% { transform: translateY(-50px) scale(1); opacity: 0; } }
-
         .bubble {
             position: absolute;
             bottom: -100px;
@@ -627,75 +623,6 @@
             border-color: var(--border-hover);
         }
 
-        .profile-img-wrapper {
-            width: 100%;
-            border-radius: 14px;
-            overflow: hidden;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .profile-img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-
-        .item-card:hover .profile-img { transform: scale(1.02); }
-
-        .item-info { width: 100%; }
-        .item-info h3 { margin: 0 0 8px 0; font-size: 24px; color: var(--text-color); }
-        .item-info p { margin: 0 0 6px 0; font-size: 15px; color: var(--text-muted); }
-
-        .card-actions {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .details-trigger-btn {
-            flex: 1;
-            background: var(--accent-hover-bg);
-            border: 1px solid var(--border-hover);
-            color: var(--accent-color);
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-        .details-trigger-btn:hover {
-            background: var(--accent-color);
-            color: var(--modal-bg);
-        }
-
-        .phone-action-btn {
-            flex: 1;
-            background: var(--accent-gradient);
-            color: var(--modal-bg);
-            padding: 12px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: opacity 0.2s;
-        }
-        .phone-action-btn:hover { opacity: 0.9; }
-
         .modal-overlay {
             display: none;
             position: fixed;
@@ -728,26 +655,7 @@
         .close-btn:hover { opacity: 0.8; }
 
         .modal-title { font-size: 24px; color: var(--text-color); margin: 0 0 15px 0; }
-
-        .modal-gallery {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-            margin-top: 15px;
-        }
-
-        .hd-modal-img {
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            display: block;
-        }
-
-        .no-result { text-align: center; color: var(--text-muted); font-size: 16px; margin-top: 30px; font-weight: 500; }
-
+        
         #scrollTopBtn {
             position: fixed;
             bottom: 25px;
@@ -772,7 +680,6 @@
 </head>
 <body>
 
-<!-- شاشة البداية (تبقى 3 ثوانٍ ثم تتوسع الدائرة لتكشف الموقع) -->
 <div id="splashScreen">
     <div class="splash-content">
         <div class="splash-logo">La Source</div>
@@ -804,9 +711,9 @@
         <button class="sidebar-close-btn" onclick="toggleSidebar()">×</button>
     </div>
     <div class="sidebar-links">
-        <a class="sidebar-link-item" onclick="openLegalModal('about'); toggleSidebar();">ℹ️ About Us</a>
-        <a class="sidebar-link-item" onclick="openLegalModal('privacy'); toggleSidebar();">🔒 Privacy Policy</a>
-        <a class="sidebar-link-item" onclick="openLegalModal('contact'); toggleSidebar();">📞 Contact Us</a>
+        <a class="sidebar-link-item" onclick="toggleSidebar()">ℹ️ About Us</a>
+        <a class="sidebar-link-item" onclick="toggleSidebar()">🔒 Privacy Policy</a>
+        <a class="sidebar-link-item" onclick="toggleSidebar()">📞 Contact Us</a>
     </div>
     <div class="sidebar-footer">
         &copy; 2026 La Source. Tous droits réservés.
@@ -825,7 +732,6 @@
         </div>
     </div>
 
-    <!-- 1. Sectors Selection View (Glassmorphism Cards) -->
     <div id="sectorsView">
         <p class="section-heading-title">Choisissez un secteur d'activité</p>
         <div class="sectors-grid">
@@ -853,12 +759,11 @@
         </div>
     </div>
 
-    <!-- 2. Wilaya Search & Results View -->
     <div id="searchView">
         <div class="search-container-relative">
             <div class="search-box-wrapper">
                 <span style="margin-right: 10px; font-size: 20px;">📍</span>
-                <input type="text" id="wilayaInput" placeholder="Entrez votre Wilaya (ex: constantine, alger)..." oninput="handleWilayaInput()" autocomplete="off">
+                <input type="text" id="wilayaInput" placeholder="Entrez votre Wilaya..." oninput="handleWilayaInput()" autocomplete="off">
                 <button class="clear-search-btn" id="clearWilayaBtn" onclick="clearWilayaInput()">×</button>
             </div>
             <div id="suggestionsDropdown" class="suggestions-dropdown"></div>
@@ -866,7 +771,7 @@
 
         <div id="itemNameSearchWrapper">
             <span style="margin-right: 10px; font-size: 20px;">🔍</span>
-            <input type="text" id="itemNameInput" placeholder="Filtrer par nom (optionnel)..." oninput="filterByName()">
+            <input type="text" id="itemNameInput" placeholder="Filtrer par nom..." oninput="filterByName()">
         </div>
 
         <div id="resultsContainer" class="grid-container"></div>
@@ -884,376 +789,106 @@
 </div>
 
 <script>
-    // بقاء شاشة الترحيب لمدة 3 ثوانٍ ثم توسع الدائرة وكشف الموقع
     window.addEventListener("load", () => {
         setTimeout(() => {
             let splash = document.getElementById("splashScreen");
             splash.classList.add("expand");
             splash.classList.add("fade-out");
-            
-            // إزالة العنصر نهائياً من الـ DOM بعد انتهاء الحركة تماماً
-            setTimeout(() => {
-                splash.remove();
-            }, 900);
-        }, 3000); // 3000 ملي ثانية = 3 ثوانٍ
+            setTimeout(() => { splash.remove(); }, 900);
+        }, 3000);
     });
 
     const wilayasList = [
         "adrar", "chlef", "laghouat", "oum_el_bouaghi", "batna", "bejaia", "biskra", "bechar", 
-        "blida", "bouira", "tamanrasset", "tbessa", "tlemcen", "tiaret", "tizi_ouzou", "alger", 
-        "djelfa", "jijel", "setif", "saida", "skikda", "sidi_bel_abbes", "annaba", "guelma", 
-        "constantine", "medea", "mostaganem", "msila", "mascara", "ouargla", "oran", "el_bayadh", 
-        "illizi", "bordj_bou_arreridj", "boumerdes", "el_tarf", "tindouf", "tissemsilt", "el_oued", 
+        "blida", "bouira", "tamanrasset", "tbessa", "tlemcen", "tiaret", "tizi_ouzou", "alger",
+        "djelfa", "jijel", "setif", "saida", "skikda", "sidi_bel_abbes", "annaba", "guelma",
+        "constantine", "medea", "mostaganem", "msila", "mascara", "ouargla", "oran", "el_bayadh",
+        "illizi", "bordj_bou_arreridj", "boumerdes", "el_tarf", "tindouf", "tissemsilt", "el_oued",
         "khenchela", "souk_ahras", "tipaza", "mila", "ain_defla", "naama", "ain_temouchent", 
-        "ghardaia", "relizane", "timimoun", "bordj_badji_mokhtar", "ouled_djellal", "beni_abbes", 
-        "in_guezzam", "in_salah", "janet", "el_meghaier", "el_meniaa"
+        "ghardaia", "relizane", "timimoun", "bordj_badji_mokhtar", "ouled_djellal", "beni_abbes",
+        "in_salah", "in_guezzam", "touggourt", "djanet", "el_mgheier", "el_menia"
     ];
 
-    let currentSectorKey = "";
-    let currentSectorName = "";
-    let allItems = [];
-    let filteredItems = [];
-    let displayedCount = 0;
-    const batchSize = 10;
-    let currentMatchedWilaya = "";
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("active");
+        document.getElementById("sidebarOverlay").style.display = document.getElementById("sidebar").classList.contains("active") ? "block" : "none";
+    }
 
     function toggleTheme() {
-        const html = document.documentElement;
+        const body = document.documentElement;
         const btn = document.getElementById("themeToggleBtn");
-        if (html.getAttribute("data-theme") === "dark") {
-            html.setAttribute("data-theme", "light");
-            btn.innerText = "🌙";
+        if (body.dataset.theme === "dark") {
+            body.dataset.theme = "light";
+            btn.textContent = "🌙";
         } else {
-            html.setAttribute("data-theme", "dark");
-            btn.innerText = "☀️";
+            body.dataset.theme = "dark";
+            btn.textContent = "☀️";
         }
     }
 
-    function selectSector(key, name) {
-        currentSectorKey = key;
-        currentSectorName = name;
-        
+    let currentSector = "";
+
+    function selectSector(sectorId, sectorName) {
+        currentSector = sectorId;
         document.getElementById("sectorsView").style.display = "none";
         document.getElementById("searchView").style.display = "flex";
         document.getElementById("backHomeBtn").style.display = "flex";
-
-        let mainContainer = document.getElementById("mainContainer");
-        mainContainer.style.justifyContent = "flex-start";
-        mainContainer.style.minHeight = "unset";
-
         document.getElementById("wilayaInput").focus();
     }
 
     function resetToSectors() {
-        document.getElementById("searchView").style.display = "none";
         document.getElementById("sectorsView").style.display = "flex";
+        document.getElementById("searchView").style.display = "none";
         document.getElementById("backHomeBtn").style.display = "none";
-
-        let mainContainer = document.getElementById("mainContainer");
-        mainContainer.style.justifyContent = "center";
-        mainContainer.style.minHeight = "75vh";
-
-        clearWilayaInput();
         document.getElementById("resultsContainer").innerHTML = "";
-        document.getElementById("itemNameSearchWrapper").style.display = "none";
-        document.getElementById("suggestionsDropdown").style.display = "none";
-    }
-
-    function createParticles() {
-        const container = document.getElementById("particles-js");
-        for (let i = 0; i < 25; i++) {
-            let p = document.createElement("div");
-            p.className = "particle";
-            p.style.left = Math.random() * 100 + "%";
-            p.style.width = p.style.height = (Math.random() * 4 + 2) + "px";
-            p.style.animationDuration = (Math.random() * 6 + 6) + "s";
-            p.style.animationDelay = (Math.random() * 5) + "s";
-            container.appendChild(p);
-        }
-    }
-
-    function createBubbles() {
-        const container = document.getElementById("bubbles-container");
-        for (let i = 0; i < 15; i++) {
-            let b = document.createElement("div");
-            b.className = "bubble";
-            let size = Math.random() * 35 + 15;
-            b.style.width = size + "px";
-            b.style.height = size + "px";
-            b.style.left = Math.random() * 100 + "%";
-            b.style.animationDuration = (Math.random() * 8 + 6) + "s";
-            b.style.animationDelay = (Math.random() * 5) + "s";
-            container.appendChild(b);
-        }
-    }
-
-    createParticles();
-    createBubbles();
-
-    function toggleSidebar() {
-        let sidebar = document.getElementById("sidebar");
-        let overlay = document.getElementById("sidebarOverlay");
-        
-        if (sidebar.classList.contains("active")) {
-            sidebar.classList.remove("active");
-            overlay.style.display = "none";
-        } else {
-            sidebar.classList.add("active");
-            overlay.style.display = "block";
-        }
     }
 
     function handleWilayaInput() {
-        let query = document.getElementById("wilayaInput").value.trim().toLowerCase();
-        let clearBtn = document.getElementById("clearWilayaBtn");
-        let dropdown = document.getElementById("suggestionsDropdown");
-
-        clearBtn.style.display = query.length > 0 ? "block" : "none";
-
-        if (query === "") {
+        const input = document.getElementById("wilayaInput").value.toLowerCase();
+        const dropdown = document.getElementById("suggestionsDropdown");
+        const clearBtn = document.getElementById("clearWilayaBtn");
+        
+        clearBtn.style.display = input.length > 0 ? "block" : "none";
+        
+        if (input.length < 2) {
             dropdown.style.display = "none";
-            searchData("");
             return;
         }
 
-        let matches = wilayasList.filter(w => w.includes(query));
-        
-        if (matches.length > 0) {
-            dropdown.innerHTML = "";
-            matches.forEach(match => {
-                let div = document.createElement("div");
-                div.className = "suggestion-item";
-                div.innerText = match.toUpperCase().replace(/_/g, " ");
-                div.onclick = () => {
-                    document.getElementById("wilayaInput").value = match;
-                    dropdown.style.display = "none";
-                    document.getElementById("clearWilayaBtn").style.display = "block";
-                    searchData(match);
-                };
-                dropdown.appendChild(div);
-            });
-            dropdown.style.display = "block";
-        } else {
-            dropdown.style.display = "none";
-        }
+        const filtered = wilayasList.filter(w => w.includes(input));
+        dropdown.innerHTML = filtered.map(w => `<div class="suggestion-item" onclick="setWilaya('${w}')">${w.replace('_', ' ')}</div>`).join('');
+        dropdown.style.display = filtered.length > 0 ? "block" : "none";
+    }
 
-        searchData(query);
+    function setWilaya(w) {
+        document.getElementById("wilayaInput").value = w.replace('_', ' ');
+        document.getElementById("suggestionsDropdown").style.display = "none";
+        document.getElementById("itemNameSearchWrapper").style.display = "flex";
+        // Logic to load items for this sector + wilaya would go here
     }
 
     function clearWilayaInput() {
         document.getElementById("wilayaInput").value = "";
         document.getElementById("clearWilayaBtn").style.display = "none";
-        document.getElementById("suggestionsDropdown").style.display = "none";
-        searchData("");
+        document.getElementById("itemNameSearchWrapper").style.display = "none";
+        document.getElementById("resultsContainer").innerHTML = "";
     }
-
-    async function searchData(query) {
-        let loader = document.getElementById("loader");
-        loader.style.width = "100%";
-
-        let formattedQuery = query.trim().toLowerCase().replace(/\s+/g, "_");
-        let container = document.getElementById("resultsContainer");
-        let itemNameSearchWrapper = document.getElementById("itemNameSearchWrapper");
-        
-        container.innerHTML = "";
-        allItems = [];
-        filteredItems = [];
-        displayedCount = 0;
-        currentMatchedWilaya = "";
-        itemNameSearchWrapper.style.display = "none";
-        document.getElementById("itemNameInput").value = "";
-
-        if (formattedQuery === "") {
-            loader.style.width = "0%";
-            return;
-        }
-
-        let matchedWilaya = wilayasList.find(w => w === formattedQuery || w.startsWith(formattedQuery));
-
-        if (!matchedWilaya) {
-            loader.style.width = "0%";
-            container.innerHTML = "<p class='no-result'>Wilaya introuvable...</p>";
-            return;
-        }
-
-        currentMatchedWilaya = matchedWilaya;
-
-        try {
-            let partIndex = 1;
-            let combinedData = [];
-
-            while (true) {
-                let fileName = partIndex === 1 ? `${matchedWilaya}_${currentSectorKey}.json` : `${matchedWilaya}_${currentSectorKey}_${partIndex}.json`;
-                try {
-                    let response = await fetch(fileName);
-                    if (!response.ok) break;
-                    let data = await response.json();
-                    combinedData = combinedData.concat(data);
-                    partIndex++;
-                } catch (e) {
-                    break;
-                }
-            }
-
-            if (combinedData.length === 0) {
-                loader.style.width = "0%";
-                container.innerHTML = `<p class='no-result'>Aucun résultat pour ${matchedWilaya.toUpperCase()} dans ce secteur.</p>`;
-                return;
-            }
-
-            allItems = combinedData;
-            filteredItems = combinedData;
-            loader.style.width = "0%";
-
-            itemNameSearchWrapper.style.display = "flex";
-            renderMoreItems();
-
-        } catch (error) {
-            loader.style.width = "0%";
-            container.innerHTML = "<p class='no-result'>Erreur de chargement.</p>";
-        }
-    }
-
-    function filterByName() {
-        let nameQuery = document.getElementById("itemNameInput").value.trim().toLowerCase();
-        let container = document.getElementById("resultsContainer");
-        
-        container.innerHTML = "";
-        displayedCount = 0;
-
-        if (nameQuery === "") {
-            filteredItems = allItems;
-        } else {
-            filteredItems = allItems.filter(item => item.name.toLowerCase().includes(nameQuery));
-        }
-
-        if (filteredItems.length === 0) {
-            container.innerHTML = "<p class='no-result'>Aucun résultat trouvé avec ce nom...</p>";
-            return;
-        }
-
-        renderMoreItems();
-    }
-
-    function renderMoreItems() {
-        let container = document.getElementById("resultsContainer");
-        let nextBatch = filteredItems.slice(displayedCount, displayedCount + batchSize);
-
-        nextBatch.forEach((item, index) => {
-            let card = document.createElement("div");
-            card.className = "item-card";
-            card.style.animationDelay = `${index * 0.08}s`;
-            
-            let itemAddress = item.address ? item.address : (currentMatchedWilaya.toUpperCase() + ", Algérie");
-
-            card.innerHTML = `
-                <div class="profile-img-wrapper">
-                    <img src="${item.profileImg}" alt="${item.name}" class="profile-img" loading="lazy">
-                </div>
-                <div class="item-info">
-                    <h3>${item.name}</h3>
-                    <p>📍 ${itemAddress}</p>
-                    <p>📞 ${item.phone}</p>
-                    <div class="card-actions">
-                        <button class="details-trigger-btn" onclick='openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>Services</button>
-                        <a href="tel:${item.phone}" class="phone-action-btn">📞 Appeler</a>
-                    </div>
-                </div>
-            `;
-            
-            container.appendChild(card);
-        });
-
-        displayedCount += nextBatch.length;
-    }
-
-    window.addEventListener("scroll", () => {
-        let scrollTopBtn = document.getElementById("scrollTopBtn");
-        if (window.scrollY > 300) {
-            scrollTopBtn.style.display = "flex";
-        } else {
-            scrollTopBtn.style.display = "none";
-        }
-
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
-            if (displayedCount < filteredItems.length) {
-                renderMoreItems();
-            }
-        }
-    });
 
     function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    function openModal(item) {
-        document.getElementById("modalName").innerText = item.name + " - " + currentSectorName;
-        let galleryContainer = document.getElementById("modalGallery");
-        galleryContainer.innerHTML = "";
-
-        let images = item.menuImages || item.images || [];
-
-        if (images.length === 0) {
-            galleryContainer.innerHTML = "<p style='color: var(--text-muted);'>Aucun service disponible pour le moment.</p>";
-        } else {
-            images.forEach((imgSrc) => {
-                let img = document.createElement("img");
-                img.src = imgSrc;
-                img.className = "hd-modal-img";
-                img.alt = "Image";
-                img.loading = "lazy";
-                galleryContainer.appendChild(img);
-            });
-        }
-
-        document.getElementById("itemModal").style.display = "flex";
-    }
+    window.onscroll = () => {
+        document.getElementById("scrollTopBtn").style.display = window.scrollY > 300 ? "flex" : "none";
+    };
 
     function closeModal() {
         document.getElementById("itemModal").style.display = "none";
     }
 
     function closeModalOnOutside(event) {
-        let modalContent = document.querySelector(".modal-content");
-        if (!modalContent.contains(event.target)) {
-            closeModal();
-        }
-    }
-
-    function openLegalModal(type) {
-        let modalName = document.getElementById("modalName");
-        let galleryContainer = document.getElementById("modalGallery");
-        
-        document.getElementById("itemModal").style.display = "flex";
-        
-        if (type === 'about') {
-            modalName.innerText = "À propos de La Source";
-            galleryContainer.innerHTML = `
-                <p style="color: var(--text-muted); line-height: 1.6; text-align: left;">
-                    <strong>La Source</strong> est votre annuaire multi-secteurs de référence à travers toutes les wilayas d'Algérie. Notre mission est de simplifier l'accès rapide et fluide aux informations et services locaux.
-                </p>
-            `;
-        } else if (type === 'privacy') {
-            modalName.innerText = "Politique de Confidentialité";
-            galleryContainer.innerHTML = `
-                <p style="color: var(--text-muted); line-height: 1.6; text-align: left;">
-                    Chez <strong>La Source</strong>, nous respectons votre vie privée. Aucune donnée personnelle sensible n'est collectée.
-                </p>
-            `;
-        } else if (type === 'contact') {
-            modalName.innerText = "Contactez-nous";
-            galleryContainer.innerHTML = `
-                <p style="color: var(--text-muted); line-height: 1.6; text-align: left;">
-                    Vous souhaitez ajouter votre établissement ou nous contacter ?
-                </p>
-                <p style="color: var(--text-color); text-align: left; margin-top: 15px;">
-                    📧 Email : <a href="mailto:amrinoufel51@gmail.com" style="color: var(--text-color); text-decoration: underline;">amrinoufel51@gmail.com</a><br><br>
-                    📞 Téléphone : <a href="tel:0549770854" style="color: var(--text-color); text-decoration: underline;">0549770854</a>
-                </p>
-            `;
-        }
+        if (event.target.classList.contains("modal-overlay")) closeModal();
     }
 </script>
-
 </body>
 </html>
